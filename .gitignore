@@ -22,6 +22,3 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-
-# Datasets
-data/*/*.csv
