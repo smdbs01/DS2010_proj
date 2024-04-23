@@ -31,8 +31,24 @@ def download_raw_data() -> pd.DataFrame:
     df = pd.read_csv(p)
     return df
 
-def clean_data(df: pd.DataFrame):
-    assert df is not None
+def clean_data() -> pd.DataFrame:
+    cleaned_path = path.join(DATA_PATH, "processed", "crime.csv")
+    
+    if path.exists(cleaned_path):
+        print("Processed data already exists.")
+        print("Type y to overwrite. Any other key to skip.")
+        i = input()
+        if i.upper() != "Y":
+            return pd.read_csv(cleaned_path)
+    
+    p = path.join(DATA_PATH, "raw", "crime.csv")
+    
+    if not path.exists(p):
+        print("Raw data not found. Downloading...")
+        df = download_raw_data()
+    else:
+        print("Raw data already downloaded.")
+        df = pd.read_csv(p)
 
     # drop duplicates
     df = df.drop_duplicates(subset=['DR_NO'])
@@ -59,18 +75,13 @@ def split_data(df: pd.DataFrame, seed: int = 42, train_size: float = 0.7) -> tup
 def main():
     df = download_raw_data()
     df = clean_data(df)
-    
-    if not path.exists(path.join(DATA_PATH, "processed", "crime.csv")):
-        df.to_csv(path.join(DATA_PATH, "processed", "crime.csv"), index=False)
-    else:
-        print("Processed data already exists. Type y to overwrite. Any other key to skip.")
-        if input().upper() == "Y":
-            df.to_csv(path.join(DATA_PATH, "processed", "crime.csv"), index=False)
+
+    print("Processed data created.")
 
     train, test = split_data(df)
     train.to_csv(path.join(DATA_PATH, "final", "crime_train.csv"), index=False)
     test.to_csv(path.join(DATA_PATH, "final", "crime_test.csv"), index=False)
-    print("Processed data saved.")
+    print("Final train and test data saved.")
 
 if __name__ == "__main__":
     main()
