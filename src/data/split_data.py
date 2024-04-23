@@ -32,8 +32,8 @@ def main():
     train_path = path.join(DATA_PATH, "final", "crime_train.csv")
     test_path = path.join(DATA_PATH, "final", "crime_test.csv")
     
-    train.to_csv(train_path)
-    test.to_csv(test_path)
+    train.to_csv(train_path, index=False)
+    test.to_csv(test_path, index=False)
 
 if __name__ == "__main__":
     main()

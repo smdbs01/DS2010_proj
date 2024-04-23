@@ -34,7 +34,7 @@ def main():
         i = input()
         if i.upper() != "Y":
             return
-    df.to_csv(cleaned_path)
+    df.to_csv(cleaned_path, index=False)
 
 if __name__ == "__main__":
     main()
