@@ -7,13 +7,6 @@ DATA_PATH = path.join((path.abspath(path.dirname(__file__))), "..", "..", "data"
 URL = "https://data.lacity.org/api/views/2nrs-mtv8/rows.csv?accessType=DOWNLOAD"
 
 def download_raw_data():
-    if path.exists(path.join(DATA_PATH, "raw", "crime.csv")):
-        print("Raw data already downloaded.")
-        print("Type y to overwrite. Any other key to exit.")
-        i = input()
-        if i.upper() != "Y":
-            return
-    
     p = path.join(DATA_PATH, "raw", "crime.csv")
     
     r = requests.get(URL, allow_redirects=True)
@@ -25,5 +18,15 @@ def download_raw_data():
     with open(p, 'wb') as f:
         f.write(r.content)
 
-if __name__ == "__main__":
+def main():
+    if path.exists(path.join(DATA_PATH, "raw", "crime.csv")):
+        print("Raw data already downloaded.")
+        print("Type y to overwrite. Any other key to exit.")
+        i = input()
+        if i.upper() != "Y":
+            return
+
     download_raw_data()
+
+if __name__ == "__main__":
+    main()

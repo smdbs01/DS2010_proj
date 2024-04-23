@@ -15,7 +15,7 @@ def clean_data(df: pd.DataFrame):
     
     return df
 
-if __name__ == "__main__":
+def main():
     raw_path = path.join(DATA_PATH, "raw", "crime.csv")
 
     if not path.exists(raw_path):
@@ -23,4 +23,18 @@ if __name__ == "__main__":
     
     df = pd.read_csv(raw_path)
     
-    print(clean_data(df))
+    df = clean_data(df)
+    
+    print(df)
+    
+    cleaned_path = path.join(DATA_PATH, "processed", "crime.csv")
+
+    if path.exists(cleaned_path):
+        print("Cleaned data already exists. Type y to overwrite. Any other key to exit.")
+        i = input()
+        if i.upper() != "Y":
+            return
+    df.to_csv(cleaned_path)
+
+if __name__ == "__main__":
+    main()
