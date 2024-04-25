@@ -20,7 +20,7 @@ def train_model(df: pd.DataFrame, *args, **kwargs) -> None:
     # Time, Area, Latitude, Longitude of the reported crime
     X = df[['TIME OCC', 'AREA', 'LAT', 'LON']]
     # The code of the crime (type of crime)
-    y = df['Crm Cd']
+    y = df['Crm Cd Desc']
     
     scalar = StandardScaler()
     X = scalar.fit_transform(X)
@@ -40,7 +40,7 @@ if __name__ == "__main__":
     
     train = pd.read_csv(train_path)
     
-    train_model(train, n_estimators=100, max_depth=10)
+    train_model(train, n_estimators=100, max_depth=15, random_state=42, class_weight='balanced', max_sample=0.5)
 
     
     

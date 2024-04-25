@@ -58,6 +58,9 @@ def clean_data(df: pd.DataFrame = None, is_save: bool = False) -> pd.DataFrame:
     # remove rows missing LAT and LON
     df = df[(df[['LAT', 'LON']] != 0).all(axis=1)]
     
+    # remove rows missing TIME OCC
+    df = df[df['TIME OCC'] != 1]
+    
     if is_save:
         df.to_csv(cleaned_path, index=False)
     
@@ -83,7 +86,7 @@ def main():
     df = download_raw_data(is_save=False)
     print("Raw data created.")
     
-    df = clean_data(df, is_save=False)
+    df = clean_data(df, is_save=True)
     print("Processed data created.")
 
     train, test = split_data(df, is_save=True)
