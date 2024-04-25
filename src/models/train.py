@@ -22,16 +22,16 @@ def train_model(df: pd.DataFrame, model_name: str = "model.pkl", *args, **kwargs
     # The code of the crime (type of crime)
     y = df['Crm Cd Desc']
     
-    scalar = StandardScaler()
-    X = scalar.fit_transform(X)
+    scaler = StandardScaler()
+    X = scaler.fit_transform(X)
     
     print("Training model...")
     model.fit(X, y)
     print("Training ended.")
     
-    scalar_path = path.join(MODEL_PATH, "scalar.pkl")
-    with open(scalar_path, 'wb') as f:
-        pickle.dump(scalar, f)
+    scaler_path = path.join(MODEL_PATH, "scaler.pkl")
+    with open(scaler_path, 'wb') as f:
+        pickle.dump(scaler, f)
     
     save_model(model, model_path)
     

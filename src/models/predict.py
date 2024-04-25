@@ -20,10 +20,10 @@ def predict(df: pd.DataFrame, model_name: str = "model.pkl") -> pd.DataFrame:
     X = df[['TIME OCC', 'LAT', 'LON']]
     
     print("Loading scalar...")
-    scalar_path = path.join(MODEL_PATH, "scalar.pkl")
-    with open(scalar_path, 'rb') as f:
-        scalar = pickle.load(f)
-        X = scalar.transform(X)
+    scaler_path = path.join(MODEL_PATH, "scaler.pkl")
+    with open(scaler_path, 'rb') as f:
+        scaler = pickle.load(f)
+        X = scaler.transform(X)
     
     print("Predicting...")
     return model.predict(X)
