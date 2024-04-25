@@ -10,15 +10,15 @@ from src import MODEL_PATH
 from src.models import get_model
 from src.models import save_model
 
-def train_model(df: pd.DataFrame, *args, **kwargs) -> None:
-    model_path = path.join(MODEL_PATH, "model.pkl")
+def train_model(df: pd.DataFrame, model_name: str = "model.pkl", *args, **kwargs) -> None:
+    model_path = path.join(MODEL_PATH, model_name)
     model = get_model(model_path)
     if model is None:
         print("Creating new model.")
         model = RandomForestClassifier(*args, **kwargs)
     
-    # Time, Area, Latitude, Longitude of the reported crime
-    X = df[['TIME OCC', 'AREA', 'LAT', 'LON']]
+    # Time, Latitude, Longitude of the reported crime
+    X = df[['TIME OCC', 'LAT', 'LON']]
     # The code of the crime (type of crime)
     y = df['Crm Cd Desc']
     
@@ -40,7 +40,7 @@ if __name__ == "__main__":
     
     train = pd.read_csv(train_path)
     
-    train_model(train, n_estimators=100, max_depth=15, random_state=42, class_weight='balanced', max_sample=0.5)
+    train_model(train, max_depth=10, random_state=42)
 
     
     

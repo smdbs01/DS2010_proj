@@ -11,13 +11,13 @@ from src.models import save_model
 from src import DATA_PATH
 from src import MODEL_PATH
 
-def predict(df: pd.DataFrame) -> pd.DataFrame:
-    model_path = path.join(MODEL_PATH, "model.pkl")
+def predict(df: pd.DataFrame, model_name: str = "model.pkl") -> pd.DataFrame:
+    model_path = path.join(MODEL_PATH, model_name)
     model = get_model(model_path)
     if model is None:
         return None
     
-    X = df[['TIME OCC', 'AREA', 'LAT', 'LON']]
+    X = df[['TIME OCC', 'LAT', 'LON']]
     
     print("Loading scalar...")
     scalar_path = path.join(MODEL_PATH, "scalar.pkl")
@@ -62,7 +62,7 @@ if __name__ == "__main__":
     ax.bar(x, [false_count[c] for c in classes], width, color="red", bottom=[true_count[c] for c in classes], label="False")
     ax.set_xlabel('Class')
     ax.set_ylabel('Number of Predictions')
-    ax.set_title('Correct and Incorrect Predictions by Class')
+    ax.set_title('Correct and Incorrect Predictions by Real Response Class')
     ax.set_xticks(x)
     ax.set_xticklabels(classes, rotation=45, ha='right')
     ax.legend()
@@ -75,7 +75,7 @@ if __name__ == "__main__":
     ax.bar(x, [false_pred_count[c] for c in classes], width, color="red", bottom=[true_pred_count[c] for c in classes], label="False")
     ax.set_xlabel('Class')
     ax.set_ylabel('Number of Predictions')
-    ax.set_title('Correct and Incorrect Predictions by Class')
+    ax.set_title('Correct and Incorrect Predictions by Predicted Class')
     ax.set_xticks(x)
     ax.set_xticklabels(classes, rotation=45, ha='right')
     ax.legend()
